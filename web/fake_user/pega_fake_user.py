@@ -41,9 +41,15 @@ class FakeDataGenerator:
             # Fecha navegador
             browser.close()
 
-            # Retorna os dados como dicionário
-            return {
+            dados_contato = []
+
+            dados_contato.append({
                 "primeiro_nome": primeiro_nome,
                 "sobrenome": sobrenome,
                 "cep": cep
+            })
+
+            # Retorna os dados como dicionário
+            return {
+                "contato": dados_contato
             }
