@@ -1,3 +1,4 @@
+import logging
 import subprocess
 import time
 import psutil
@@ -11,19 +12,19 @@ class OperaFakturama:
         # Verifica se já existe processo Fakturama
         for proc in psutil.process_iter(['name']):
             if proc.info['name'] and "fakturama" in proc.info['name'].lower():
-                print("Fakturama já está aberto!")
+                logging.info("Fakturama já está aberto")
                 windows = [w for w in gw.getWindowsWithTitle("Fakturama") if w.visible]
                 if windows:
                     win = windows[0]
                     win.activate()
                     win.maximize()
-                    print("Janela do Fakturama detectada e ativada!")
+                    logging.info("Janela do Fakturama detectada e ativada")
                     return True
                 else:
-                    print("Janela do Fakturama não encontrada.")
+                    logging.warning("Janela do Fakturama não encontrada.")
                     return False
                 
-        print("Abrindo Fakturama...")
+        logging.info("Abrindo Fakturama...")
         subprocess.Popen([self.caminho_exe])
 
         # Espera até a janela aparecer
@@ -33,7 +34,7 @@ class OperaFakturama:
                 win = windows[0]
                 win.activate()
                 win.maximize()
-                print("Janela do Fakturama detectada e ativada!")
+                logging.info("Janela do Fakturama detectada e ativada!")
                 return True
             time.sleep(1)
 
@@ -44,8 +45,8 @@ class OperaFakturama:
         if windows:
             win = windows[0]
             win.close()
-            print("Janela do Fakturama fechada com sucesso!")
+            logging.info("Janela do Fakturama fechada com sucesso!")
             return True
         else:
-            print("Janela do Fakturama não encontrada.")
+            logging.warning("Janela do Fakturama não encontrada.")
             return False

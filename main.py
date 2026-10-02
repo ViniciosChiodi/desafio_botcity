@@ -6,16 +6,31 @@ from desktop import preenche_dados
 
 
 def main():
-    # setup_logger()
-    # logging.info("Iniciando o script principal...")
+    try:
+        setup_logger()
 
-    # coleta_dados.collect_data()
+        """
+        Automação foi estruturada em três partes:
+        
+        1. Coleta de dados do e-commerce e de cliente novo
+        2. Preenchimento de dados de contato no sistema Fakturama
+        3. Preenchimento de dados de produtos no sistema Fakturama
+        """
 
-    # preenche_dados.preenche_dados_contato()
-    preenche_dados.preenche_produtos()
+        logging.info("Iniciando Automação Fakturama")
 
+        # -- Coleta de dados --
+        coleta_dados.collect_data()
 
-    input("Pressione Enter para continuar...")
+        # -- Preenchimento de dados --
+        preenche_dados.preenche_dados_contato()
+
+        preenche_dados.preenche_produtos()
+
+        logging.info("Automação Fakturama concluída com sucesso!")
+    except Exception as e:
+        logging.error(f"Ocorreu um erro: {e}")
+
 
 
 if __name__ == "__main__":

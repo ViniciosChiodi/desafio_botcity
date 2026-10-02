@@ -1,3 +1,5 @@
+import logging
+
 from web.fake_user.pega_fake_user import FakeDataGenerator
 from web.e_commerce.acessa_ecommerce import LoginEcommerce
 from web.e_commerce.coleta_dados_ecommerce import CollectData
@@ -5,31 +7,31 @@ from utils.salva_csv import salvar_em_csv
 
 
 def collect_data():
+    logging.info("Iniciando coleta de dados do e-commerce e geração de dados de contato.")
+
     generator = FakeDataGenerator()
     dados_contato = generator.gerar_dados()
+    logging.info("Dados de contato gerados com sucesso.")
 
     login = LoginEcommerce()
     login_result = login.gerar_dados()
+    
 
-    print("Login bem-sucedido:", login_result["success_login"])
     if not login_result["success_login"]:
-        print("Erro no login:", login_result["login_error"])
+        logging.error("Erro no login: %s", login_result["login_error"])
     else:
-        print("Login realizado com sucesso!")
+        logging.info("Login no e-commerce realizado com sucesso.")
 
         coleta_dados = CollectData(login_result["page"])
         resultado_coleta_dados = coleta_dados.collect_data()
-
-        for item in resultado_coleta_dados["itens"]:
-            print(f"{item['posicao']} - {item['nome_produto']} | {item['descricao']} | {item['preco']}")
-
+        logging.info("Coleta de dados do e-commerce concluída com sucesso.")
 
         # Salvar os dados de contato em um arquivo CSV
         salvar_em_csv([{"primeiro_nome": item["primeiro_nome"],
             "sobrenome": item["sobrenome"],
             "cep": item["cep"]} 
             for item in dados_contato["contato"]], "contato.csv")
-
+        logging.info("Dados de contato salvos em contato.csv")
 
         # Salvar os dados dos produtos em um arquivo CSV
         salvar_em_csv([{"posicao": item["posicao"],
@@ -37,3 +39,4 @@ def collect_data():
             "descricao": item["descricao"],
             "preco": item["preco"]} 
             for item in resultado_coleta_dados["itens"]], "produtos.csv")
+        logging.info("Dados dos produtos salvos em produtos.csv")
