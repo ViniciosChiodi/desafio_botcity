@@ -24,9 +24,9 @@ class CollectData:
             # Adiciona todas as informações no dicionário
             dados.append({
                 "posicao": posicao,
-                "nome": nome.strip(),
+                "nome_produto": nome.strip(),
                 "descricao": descricao.strip(),
-                "preco": preco.strip()
+                "preco": preco.strip().replace("R$", "").replace(".", ",")
             })
 
         self.page.close()  # Fecha a página após coletar os dados

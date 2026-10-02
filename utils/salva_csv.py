@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 def salvar_em_csv(dados, nome_arquivo:str):
@@ -6,5 +8,7 @@ def salvar_em_csv(dados, nome_arquivo:str):
     Sempre sobrescreve o arquivo se já existir.
     """
     df = pd.DataFrame(dados)
-    df.to_csv(nome_arquivo, index=False, encoding="utf-8", sep=';')
+    diretorio_csv = Path(__file__).resolve().parent.parent / "csvs"
+    diretorio_csv.mkdir(parents=True, exist_ok=True)
+    df.to_csv(diretorio_csv / nome_arquivo, index=False, encoding="utf-8", sep=';')
     print(f"Dados exportados para {nome_arquivo}")
