@@ -9,14 +9,16 @@ from utils.salva_csv import salvar_em_csv
 def collect_data():
     logging.info("Iniciando coleta de dados do e-commerce e geração de dados de contato.")
 
+    # -- Chama a função para gerar dados de contato --
     generator = FakeDataGenerator()
     dados_contato = generator.gerar_dados()
     logging.info("Dados de contato gerados com sucesso.")
 
+    # -- Chama a função para acessar o e-commerce e coletar dados --
     login = LoginEcommerce()
     login_result = login.gerar_dados()
     
-
+    # -- Verificar se o login foi bem-sucedido antes de prosseguir --
     if not login_result["success_login"]:
         logging.error("Erro no login: %s", login_result["login_error"])
     else:
@@ -26,14 +28,14 @@ def collect_data():
         resultado_coleta_dados = coleta_dados.collect_data()
         logging.info("Coleta de dados do e-commerce concluída com sucesso.")
 
-        # Salvar os dados de contato em um arquivo CSV
+        # -- Salvar os dados de contato em um arquivo CSV --
         salvar_em_csv([{"primeiro_nome": item["primeiro_nome"],
             "sobrenome": item["sobrenome"],
             "cep": item["cep"]} 
             for item in dados_contato["contato"]], "contato.csv")
         logging.info("Dados de contato salvos em contato.csv")
 
-        # Salvar os dados dos produtos em um arquivo CSV
+        # -- Salvar os dados dos produtos em um arquivo CSV --
         salvar_em_csv([{"posicao": item["posicao"],
             "nome_produto": item["nome_produto"],
             "descricao": item["descricao"],

@@ -28,7 +28,6 @@ def preenche_dados_contato():
                 insert_dados.salvar_insert()
                 logging.info(f"Dados de contato salvos com sucesso: {first_name} {last_name}")
 
-        fakturama.fechar_fakturama
     else:
         logging.error("Fakturama não está em execução. Por favor, abra o Fakturama e tente novamente.")
         return False
